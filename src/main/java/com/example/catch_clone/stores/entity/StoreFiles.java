@@ -1,4 +1,5 @@
-package com.example.catch_clone.comment.entity;
+package com.example.catch_clone.stores.entity;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,25 +12,19 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Comment {
+public class StoreFiles {
   @Id
   @GeneratedValue
   private Long id;
 
   @Column
-  private Long userId;
+  private Long storeId; //가맹점ID
 
   @Column
-  private Long reviewId;
+  private String fileUrl; //파일URL
 
   @Column
-  private String commentContent;
-
-  @Column
-  private LocalDateTime createdAt;
-
-  @Column
-  private Integer likeCount;
+  private LocalDateTime createdAt;  //생성일자
 
 
 

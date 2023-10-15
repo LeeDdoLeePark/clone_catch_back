@@ -1,4 +1,5 @@
-package com.example.catch_clone.bookmark.entity;
+package com.example.catch_clone.review.entity;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,18 +11,20 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Bookmark {
+public class ReviewLike {
+
   @Id
   @GeneratedValue
-  private Long id;  // 따로 복합키 설정 해야될 것 같음.
+  private Long id;  //여기도 리뷰ID를 fk로 가지고 있고 pk가 따로 없는데 혹시 몰라 남겨놓습니다.
+
 
   @Column
-  private Long userId;
+  private Long reviewId;  //리뷰ID
 
   @Column
-  private Long storeId;
+  private Long userId;  //회원ID
 
-  @Column
-  private String bookmarkMemo;
+
+
 
 }
