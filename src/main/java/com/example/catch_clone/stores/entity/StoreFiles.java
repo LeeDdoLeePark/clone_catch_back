@@ -1,4 +1,5 @@
-package com.example.catch_clone.reservation.entity;
+package com.example.catch_clone.stores.entity;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,21 +12,20 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Reservation {
+public class StoreFiles {
   @Id
   @GeneratedValue
   private Long id;
 
   @Column
-  private Long userId;  //회원ID
-
-  @Column
   private Long storeId; //가맹점ID
 
   @Column
-  private String reservationStatus;  //예약상태
+  private String fileUrl; //파일URL
 
   @Column
   private LocalDateTime createdAt;  //생성일자
+
+
 
 }

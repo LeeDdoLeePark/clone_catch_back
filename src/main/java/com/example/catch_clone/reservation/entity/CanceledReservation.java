@@ -11,21 +11,21 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Reservation {
+public class CanceledReservation {
+
   @Id
   @GeneratedValue
   private Long id;
 
   @Column
-  private Long userId;  //회원ID
+  private String reservationPersonnel;  //예약인원
 
   @Column
-  private Long storeId; //가맹점ID
+  private String reservationDate; //예약일자
 
   @Column
-  private String reservationStatus;  //예약상태
+  private String reservationTime; //예약시간
 
   @Column
   private LocalDateTime createdAt;  //생성일자
-
 }
