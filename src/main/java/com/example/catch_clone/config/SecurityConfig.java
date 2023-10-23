@@ -40,8 +40,8 @@ public class SecurityConfig {
   public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring()
         .requestMatchers(PathRequest.toH2Console())
-        .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-        .requestMatchers("/users/sign");
+        .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//        .requestMatchers("/users/sign");
 
   }
 
@@ -53,20 +53,19 @@ public class SecurityConfig {
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
-        .authorizeHttpRequests(request -> request
-            .requestMatchers(
-                    "sample",
-                              "/login/sample"
-            )
-            .permitAll()
-
-            .requestMatchers(
-                    "/sample"
-            )
-            .hasAnyRole("SAMPLE")
-        )
+//        .authorizeHttpRequests(request -> request
+//            .requestMatchers(
+//                    "sample",
+//                              "/login/sample"
+//            )
+//            .permitAll()
+//
+//        .requestMatchers(
+//            "/sample"
+//        )
+//        .hasAnyRole("SAMPLE")
+//        )
         .authorizeHttpRequests(request -> request.anyRequest().authenticated());
-
 
     //401
     http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint));

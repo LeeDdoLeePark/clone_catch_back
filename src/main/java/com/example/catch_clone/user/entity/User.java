@@ -1,7 +1,10 @@
 package com.example.catch_clone.user.entity;
 
+import com.example.catch_clone.util.enums.UserRoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -18,8 +21,12 @@ public class User {
   @GeneratedValue
   private Long id;
 
+  @Column(length = 25, nullable = false, unique = true)
+  private String username;
+
   @Column
-  private String accountName;
+  @Enumerated(EnumType.STRING)
+  private UserRoleEnum role;
 
   @Column
   private String password;
@@ -38,9 +45,6 @@ public class User {
 
   @Column
   private String profileUrl;
-
-
-
 
 
 }
