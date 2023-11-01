@@ -5,7 +5,6 @@ import static com.example.catch_clone.review.controller.ReviewController.REVIEW_
 import com.example.catch_clone.review.dto.ReviewRequestDto;
 import com.example.catch_clone.review.dto.ReviewResponseDto;
 import com.example.catch_clone.review.service.ReviewServiceImpl;
-import com.example.catch_clone.review.service.inter.ReviewService;
 import com.example.catch_clone.security.UserDetailsImpl;
 import com.example.catch_clone.security.dto.StatusResponseDto;
 import java.nio.charset.StandardCharsets;

@@ -1,7 +1,6 @@
 package com.example.catch_clone.review.entity;
 
 import com.example.catch_clone.review.dto.ReviewRequestDto;
-import com.example.catch_clone.review.dto.ReviewResponseDto;
 import com.example.catch_clone.user.entity.User;
 import com.example.catch_clone.util.TimeStamped;
 import jakarta.persistence.Column;
@@ -70,7 +69,6 @@ public Review(Long id, Long userId, Long storeId, String reviewContent, Float ta
   this.totalRating = (tasteRating + atmosphereRating + serviceRating) / 3;
   this.likeCount = 0;
 }
-
 
   public boolean isWriter(User user,Review review){
     return Objects.equals(user.getId(), review.getUserId());
