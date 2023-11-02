@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @RequiredArgsConstructor
@@ -39,8 +40,9 @@ public class SecurityConfig {
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring()
-        .requestMatchers(PathRequest.toH2Console())
+        .requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//        .requestMatchers(PathRequest.toH2Console())
 //        .requestMatchers("/users/sign");
 
   }
@@ -53,19 +55,17 @@ public class SecurityConfig {
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
-//        .authorizeHttpRequests(request -> request
-//            .requestMatchers(
-//                    "sample",
-//                              "/login/sample"
-//            )
-//            .permitAll()
+        .authorizeHttpRequests(request -> request
+            .requestMatchers(new AntPathRequestMatcher("/**"))
+            .permitAll()
+            .anyRequest().authenticated());
 //
 //        .requestMatchers(
 //            "/sample"
 //        )
 //        .hasAnyRole("SAMPLE")
 //        )
-        .authorizeHttpRequests(request -> request.anyRequest().authenticated());
+//        .authorizeHttpRequests(request -> request.anyRequest().authenticated());
 
     //401
     http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint));
