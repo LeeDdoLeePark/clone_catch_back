@@ -75,11 +75,11 @@ public Review(Long id, Long userId, Long storeId, String reviewContent, Float ta
   }
 
   public void update(ReviewRequestDto reviewRequestDto) {
-    this.reviewContent = reviewRequestDto.getReviewContent();
-    this.tasteRating = reviewRequestDto.getTasteRating();
-    this.atmosphereRating = reviewRequestDto.getAtmosphereRating();
-    this.serviceRating = reviewRequestDto.getServiceRating();
-    this.totalRating = (reviewRequestDto.getTasteRating() + reviewRequestDto.getAtmosphereRating() + reviewRequestDto.getServiceRating()) / 3;
+    this.reviewContent = reviewRequestDto.reviewContent();
+    this.tasteRating = reviewRequestDto.tasteRating();
+    this.atmosphereRating = reviewRequestDto.atmosphereRating();
+    this.serviceRating = reviewRequestDto.serviceRating();
+    this.totalRating = (reviewRequestDto.tasteRating() + reviewRequestDto.atmosphereRating() + reviewRequestDto.serviceRating()) / 3;
   }
 
 }

@@ -45,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     return new ReviewResponseDto(review.getReviewContent(),
         review.getTasteRating(), review.getAtmosphereRating(), review.getServiceRating(),
-        review.getTotalRating(), review.getCreatedAt(),review.getLikeCount());
+        review.getTotalRating(), review.getCreatedAt(), review.getLikeCount());
   }
 
   @Override
