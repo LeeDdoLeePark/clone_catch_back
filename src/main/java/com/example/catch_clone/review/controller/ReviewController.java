@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(REVIEW_URI_API)
 public class ReviewController{
-  public static final String REVIEW_URI_API = "/ct/review";
+  public static final String REVIEW_URI_API = "/ct/reviews";
   private final ReviewServiceImpl reviewService;
 
   @PostMapping("/{storeId}")
@@ -39,7 +39,7 @@ public class ReviewController{
     return ResponseEntity.ok().headers(headers).body(statusResponseDto);
   }
 
-  @GetMapping("/reviews/{reviewId}")
+  @GetMapping("/review/{reviewId}")
   public ResponseEntity<ReviewResponseDto> getReview(@PathVariable Long reviewId){
     ReviewResponseDto reviewResponseDto = reviewService.getReview(reviewId);
     HttpHeaders headers = new HttpHeaders();
@@ -47,7 +47,7 @@ public class ReviewController{
     return ResponseEntity.ok().headers(headers).body(reviewResponseDto);
   }
 
-  @GetMapping("/{storeId}/reviews")
+  @GetMapping("/store/{storeId}")
   public ResponseEntity<List<ReviewResponseDto>> getStoreReviews(@PathVariable Long storeId){
     List<ReviewResponseDto> reviewResponseDtos = reviewService.getStoreReviews(storeId);
     HttpHeaders headers = new HttpHeaders();
@@ -55,7 +55,7 @@ public class ReviewController{
     return ResponseEntity.ok().headers(headers).body(reviewResponseDtos);
   }
 
-  @GetMapping("/{userId}/reviews")
+  @GetMapping("/user/{userId}")
   public ResponseEntity<List<ReviewResponseDto>> getUserReviews(@PathVariable Long userId){
     List<ReviewResponseDto> reviewResponseDtos = reviewService.getUserReviews(userId);
     HttpHeaders headers = new HttpHeaders();
