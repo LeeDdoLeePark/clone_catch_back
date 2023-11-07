@@ -30,7 +30,7 @@ public class ReviewLike extends TimeStamped {
   private static ReviewLikeId getReviewLikeId(User user, Review review) {
     ReviewLikeId id = new ReviewLikeId();
     id.setUserId(user.getId());
-    id.setReveiwId(review.getId());
+    id.setReviewId(review.getId());
     return id;
   }
 
@@ -42,7 +42,5 @@ public class ReviewLike extends TimeStamped {
   @ManyToOne
   @MapsId("Review_id")
   Review review;
-
-
 
 }

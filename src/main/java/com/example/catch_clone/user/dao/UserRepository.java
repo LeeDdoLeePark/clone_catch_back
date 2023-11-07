@@ -7,4 +7,6 @@ import org.springframework.data.repository.Repository;
 
 public interface UserRepository extends Repository<User,Long> {
   Optional<User> findByUsername(String username);
+
+  Optional<User> findById(Long userId);
 }

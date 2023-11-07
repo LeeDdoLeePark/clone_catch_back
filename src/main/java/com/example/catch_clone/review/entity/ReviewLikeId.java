@@ -6,6 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,8 +23,14 @@ public class ReviewLikeId implements Serializable {
   @Column(name = "user_id")
   private Long userId;
 
-  @Column(name = "reveiw_id")
-  private Long reveiwId;
+  @Column(name = "review_id")
+  private Long reviewId;
+
+  @Builder
+  public ReviewLikeId(Long userId,Long reviewId){
+    this.userId = userId;
+    this.reviewId = reviewId;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -34,12 +41,12 @@ public class ReviewLikeId implements Serializable {
       return false;
     }
     ReviewLikeId reviewLikeId = (ReviewLikeId) o;
-    return Objects.equals(getUserId(), reviewLikeId.getUserId()) && Objects.equals(getReveiwId(),
-        reviewLikeId.getReveiwId());
+    return Objects.equals(getUserId(), reviewLikeId.getUserId()) && Objects.equals(getReviewId(),
+        reviewLikeId.getReviewId());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getUserId(), getReveiwId());
+    return Objects.hash(getUserId(), getReviewId());
   }
 }

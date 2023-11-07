@@ -1,12 +1,16 @@
 package com.example.catch_clone.review.service;
 
 
+import com.example.catch_clone.review.dao.ReviewLikeRepository;
 import com.example.catch_clone.review.dao.ReviewRepository;
 import com.example.catch_clone.review.dto.ReviewRequestDto;
 import com.example.catch_clone.review.dto.ReviewResponseDto;
 import com.example.catch_clone.review.entity.Review;
+import com.example.catch_clone.review.entity.ReviewLike;
+import com.example.catch_clone.review.entity.ReviewLikeId;
 import com.example.catch_clone.review.service.inter.ReviewService;
 import com.example.catch_clone.security.dto.StatusResponseDto;
+import com.example.catch_clone.user.dao.UserRepository;
 import com.example.catch_clone.user.entity.User;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
   private final ReviewRepository reviewRepository;
+  private final ReviewLikeRepository reviewLikeRepository;
+  private final UserRepository userRepository;
   //중복 요청에 대한 처리 필요(이미 등록한 리뷰 재등록 X 수정만 되도록)
   @Override
   @Transactional
@@ -91,6 +97,30 @@ public class ReviewServiceImpl implements ReviewService {
     reviewRepository.deleteById(reviewId);
 
     return new StatusResponseDto(204,"NO_CONTENT");
+  }
+
+  @Override
+  public StatusResponseDto requestLike(Long userId, Long reviewId) {
+    ReviewLikeId reviewLikeId = ReviewLikeId.builder()
+        .userId(userId)
+        .reviewId(reviewId)
+        .build();
+
+    if(reviewLikeRepository.existByReviewLikeId(reviewLikeId)){
+      reviewLikeRepository.deleteByReviewLikeId(reviewLikeId);
+    }
+
+    else{
+      User user = userRepository.findById(userId).orElseThrow(
+          () -> new IllegalArgumentException("유효하지 않은 Id입니다")
+      );
+      Review review = reviewRepository.findById(reviewId).orElseThrow(
+          () -> new IllegalArgumentException("유효하지 않은 Id입니다")
+      );
+      reviewLikeRepository.save(new ReviewLike(user,review));
+    }
+
+    return new StatusResponseDto(200,"OK");
   }
 
 }

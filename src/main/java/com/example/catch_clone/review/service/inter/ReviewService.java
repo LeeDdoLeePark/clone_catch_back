@@ -20,4 +20,8 @@ public interface ReviewService {
   //리뷰 삭제하기
   StatusResponseDto deleteReview(User user, Long reviewId);
 
+
+
+  //좋아요 기능
+  StatusResponseDto requestLike(Long userId, Long reviewId);
 }

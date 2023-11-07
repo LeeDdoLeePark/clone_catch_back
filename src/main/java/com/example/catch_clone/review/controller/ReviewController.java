@@ -81,4 +81,15 @@ public class ReviewController{
     return ResponseEntity.ok().headers(headers).body(statusResponseDto);
   }
 
+
+  //좋아요 컨트롤러
+  @PostMapping("/{reviewId}/like")
+  public ResponseEntity<StatusResponseDto> requestLike(@PathVariable Long reviewId,@AuthenticationPrincipal
+  UserDetailsImpl userDetails){
+    StatusResponseDto statusResponseDto = reviewService.requestLike(userDetails.getUserId(),reviewId);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+    return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+  }
+
 }
