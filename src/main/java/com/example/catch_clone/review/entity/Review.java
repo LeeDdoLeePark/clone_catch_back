@@ -36,9 +36,6 @@ public class Review extends TimeStamped {
   private String reviewContent; //리뷰내용
 
   @Column
-  private LocalDateTime createdAt;  //생성일자
-
-  @Column
   private Float tasteRating;  //맛별점
 
   @Column
@@ -49,9 +46,6 @@ public class Review extends TimeStamped {
 
   @Column
   private Float totalRating;  //모든별점평균
-
-  @Column
-  private LocalDateTime modifiedAt; //수정일자
 
   @Column
   private Integer likeCount;  //좋아요 갯수
