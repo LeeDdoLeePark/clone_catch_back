@@ -100,7 +100,7 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
-  public StatusResponseDto requestLike(Long userId, Long reviewId) {
+  public StatusResponseDto requestReviewLike(Long userId, Long reviewId) {
     ReviewLikeId reviewLikeId = ReviewLikeId.builder()
         .userId(userId)
         .reviewId(reviewId)

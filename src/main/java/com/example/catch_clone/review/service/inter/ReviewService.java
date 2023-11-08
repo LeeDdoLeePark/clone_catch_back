@@ -23,5 +23,5 @@ public interface ReviewService {
 
 
   //좋아요 기능
-  StatusResponseDto requestLike(Long userId, Long reviewId);
+  StatusResponseDto requestReviewLike(Long userId, Long reviewId);
 }
