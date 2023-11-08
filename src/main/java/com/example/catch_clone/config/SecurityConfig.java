@@ -27,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
   private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
   private final JwtUtil jwtUtil;
+
   private final UserDetailsServiceImpl userDetailsService;
   private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
@@ -53,6 +54,8 @@ public class SecurityConfig {
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
+
+
 //        .authorizeHttpRequests(request -> request
 //            .requestMatchers(
 //                    "sample",
