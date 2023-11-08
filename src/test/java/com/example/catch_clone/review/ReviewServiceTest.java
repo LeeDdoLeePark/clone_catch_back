@@ -1,22 +1,30 @@
 package com.example.catch_clone.review;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.will;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.catch_clone.review.dao.ReviewLikeRepository;
 import com.example.catch_clone.review.dao.ReviewRepository;
 import com.example.catch_clone.review.dto.ReviewRequestDto;
 import com.example.catch_clone.review.dto.ReviewResponseDto;
 import com.example.catch_clone.review.entity.Review;
+import com.example.catch_clone.review.entity.ReviewLike;
+import com.example.catch_clone.review.entity.ReviewLikeId;
 import com.example.catch_clone.review.service.ReviewServiceImpl;
+import com.example.catch_clone.user.dao.UserRepository;
 import com.example.catch_clone.user.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +36,12 @@ public class ReviewServiceTest {
 
   @Mock
   ReviewRepository reviewRepository;
+
+  @Mock
+  ReviewLikeRepository reviewLikeRepository;
+
+  @Mock
+  UserRepository userRepository;
 
   @InjectMocks
   ReviewServiceImpl reviewService;
@@ -143,5 +157,47 @@ public class ReviewServiceTest {
     verify(reviewRepository,times(1)).deleteById(userId);
     assertThat(statusResponseDto.StatusCode()).isEqualTo(204);
     assertThat(statusResponseDto.message()).isEqualTo("NO_CONTENT");
+  }
+
+  @Test
+  @DisplayName("좋아요 추가")
+  void addReviewLike(){
+    //given
+    ReviewLikeId reviewLikeId = ReviewLikeId.builder()
+        .userId(userId)
+        .reviewId(reviewId)
+        .build();
+
+    when(reviewLikeRepository.existByReviewLikeId(reviewLikeId)).thenReturn(false);
+    given(userRepository.findById(userId)).willReturn(Optional.of(mock(User.class)));
+    given(reviewRepository.findById(reviewId)).willReturn(Optional.of(mock(Review.class)));
+
+    //when
+    var statusResponseDto = reviewService.requestReviewLike(userId,reviewId);
+
+    //then
+    verify(reviewLikeRepository,times(1)).save(any());
+    assertThat(statusResponseDto.StatusCode()).isEqualTo(200);
+    assertThat(statusResponseDto.message()).isEqualTo("OK");
+  }
+
+  @Test
+  @DisplayName("좋아요 취소")
+  void deleteReviewLike(){
+    //given
+    ReviewLikeId reviewLikeId = ReviewLikeId.builder()
+        .userId(userId)
+        .reviewId(reviewId)
+        .build();
+
+    when(reviewLikeRepository.existByReviewLikeId(reviewLikeId)).thenReturn(true);
+
+    //when
+    var statusResponseDto = reviewService.requestReviewLike(userId,reviewId);
+
+    //then
+    verify(reviewLikeRepository,times(1)).deleteByReviewLikeId(reviewLikeId);
+    assertThat(statusResponseDto.StatusCode()).isEqualTo(200);
+    assertThat(statusResponseDto.message()).isEqualTo("OK");
   }
 }
