@@ -1,8 +1,10 @@
 package com.example.catch_clone.testDataRun;
 
+import com.example.catch_clone.stores.dao.StoreFilesRepository;
 import com.example.catch_clone.stores.dao.StoreMenuRepository;
 import com.example.catch_clone.stores.dao.StoreRepository;
 import com.example.catch_clone.stores.entity.Store;
+import com.example.catch_clone.stores.entity.StoreFiles;
 import com.example.catch_clone.stores.entity.StoreMenu;
 import java.awt.Menu;
 import java.time.LocalDateTime;
@@ -22,6 +24,8 @@ public class TestDataRun implements ApplicationRunner {
 
   private final StoreRepository storeRepository;
   private final StoreMenuRepository storeMenuRepository;
+
+  private final StoreFilesRepository storeFilesRepository;
 
   @Override
   @Transactional
@@ -54,7 +58,36 @@ public class TestDataRun implements ApplicationRunner {
     storeMenuRepository.save(storeMenu);
     storeMenuRepository.save(storeMenu2);
 
+    StoreFiles storeFiles = new StoreFiles().builder()
+        .storeId(1L)
+        .fileUrl("test1 url1")
+        .createdAt(LocalDateTime.now())
+        .build();
 
+    StoreFiles storeFiles2 = new StoreFiles().builder()
+        .storeId(1L)
+        .fileUrl("test1 url2")
+        .createdAt(LocalDateTime.now())
+        .build();
+
+
+    StoreFiles storeFiles3 = new StoreFiles().builder()
+        .storeId(2L)
+        .fileUrl("test2 url1")
+        .createdAt(LocalDateTime.now())
+        .build();
+
+    StoreFiles storeFiles4 = new StoreFiles().builder()
+        .storeId(1L)
+        .fileUrl("test2 url2")
+        .createdAt(LocalDateTime.now())
+        .build();
+
+
+    storeFilesRepository.save(storeFiles);
+    storeFilesRepository.save(storeFiles2);
+    storeFilesRepository.save(storeFiles3);
+    storeFilesRepository.save(storeFiles4);
 
 
 

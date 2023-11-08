@@ -10,6 +10,9 @@ import org.springframework.data.repository.Repository;
 
 public interface StoreFilesRepository extends Repository<StoreFiles,Long> {
 
+
+  void save(StoreFiles storeFiles);
+
   @Query("select sf from StoreFiles sf where sf.storeId=:storeId")
   List<StoreFiles> findAllByStoreId(Long storeId);
 
