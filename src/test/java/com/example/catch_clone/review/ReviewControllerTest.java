@@ -221,4 +221,22 @@ public class ReviewControllerTest {
 //        )
     ));
   }
+
+  @Test
+  @WithCustomMockUser
+  void requestReviewLike() throws Exception{
+
+    ResultActions resultActions = mockMvc.perform(post("/ct/reviews/{reviewId}/like",reviewId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isOk());
+
+    resultActions.andDo(document("reviewController/requestReviewLike"
+//        responseFields(
+//            fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태 반환 코드"),
+//            fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메시지")
+//        )
+    ));
+  }
+
 }
