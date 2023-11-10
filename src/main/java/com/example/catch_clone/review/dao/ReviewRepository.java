@@ -10,7 +10,7 @@ import org.springframework.data.repository.RepositoryDefinition;
 public interface ReviewRepository extends Repository<Review,Long>, ReviewRepositoryQuery {
   void save(Review review);
   Optional<Review> findById(Long reviewId);
-  List<Review> findAllByStoreId(Long storeId);
-  List<Review> findAllByUserId(Long userId);
+//  List<Review> findAllByStoreId(Long storeId);
+//  List<Review> findAllByUserId(Long userId);
   void deleteById(Long reviewId);
 }
