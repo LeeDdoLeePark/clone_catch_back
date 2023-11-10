@@ -23,13 +23,17 @@ public class ReviewServiceImpl implements ReviewService {
   private final ReviewRepository reviewRepository;
   private final ReviewLikeRepository reviewLikeRepository;
   private final UserRepository userRepository;
-  //중복 요청에 대한 처리 필요(이미 등록한 리뷰 재등록 X 수정만 되도록)
+
   @Override
   @Transactional
   public StatusResponseDto addReview(User user, ReviewRequestDto reviewRequestDto) {
+    if(reviewRepository.existReviewByUserIdAndStoreId(user.getId(), reviewRequestDto.storeId())){
+      return new StatusResponseDto(400,"Bad Request");
+    }
 
     Review review = Review.builder()
-        .userId(reviewRequestDto.userId())
+        .userId(user.getId())
+        .reservationId(reviewRequestDto.reservationId())
         .reviewContent(reviewRequestDto.reviewContent())
         .storeId(reviewRequestDto.storeId())
         .tasteRating(reviewRequestDto.tasteRating())
@@ -43,27 +47,25 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public ReviewResponseDto getReview(Long reviewId) {
-    Review review = reviewRepository.findById(reviewId).orElseThrow(
+    return reviewRepository.findReview(reviewId).orElseThrow(
         () -> new IllegalArgumentException("유효하지 않은 Id입니다")
     );
-
-    return new ReviewResponseDto(review.getReviewContent(),
-        review.getTasteRating(), review.getAtmosphereRating(), review.getServiceRating(),
-        review.getTotalRating(), review.getCreatedAt(), review.getLikeCount());
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ReviewResponseDto> getStoreReviews(Long storeId) {
-    return reviewRepository.findAllByStoreId(storeId).stream().map(ReviewResponseDto::valueOf).toList();
+//    return reviewRepository.findAllByStoreId(storeId).stream().map(ReviewResponseDto::valueOf).toList();
+    return reviewRepository.findAllReviewByStoreId(storeId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ReviewResponseDto> getUserReviews(Long userId) {
-    return reviewRepository.findAllByUserId(userId).stream().map(ReviewResponseDto::valueOf).toList();
+//    return reviewRepository.findAllByUserId(userId).stream().map(ReviewResponseDto::valueOf).toList();
+    return reviewRepository.findAllReviewByUserId(userId);
   }
 
   @Override
@@ -100,6 +102,7 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
+  @Transactional
   public StatusResponseDto requestReviewLike(Long userId, Long reviewId) {
     ReviewLikeId reviewLikeId = ReviewLikeId.builder()
         .userId(userId)
