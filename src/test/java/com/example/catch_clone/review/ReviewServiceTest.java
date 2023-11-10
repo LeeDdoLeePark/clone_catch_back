@@ -21,6 +21,7 @@ import com.example.catch_clone.review.entity.ReviewLikeId;
 import com.example.catch_clone.review.service.ReviewServiceImpl;
 import com.example.catch_clone.user.dao.UserRepository;
 import com.example.catch_clone.user.entity.User;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,12 +49,14 @@ public class ReviewServiceTest {
 
   Long userId = 1L;
   Long storeId = 1L;
+  Long reservationId = 1L;
   Long reviewId = 1L;
 
-  ReviewRequestDto reviewRequestDto = new ReviewRequestDto(userId,storeId,"리뷰내용",4F,4F,4F);
+  ReviewRequestDto reviewRequestDto = new ReviewRequestDto(storeId,reservationId,"리뷰내용",4F,4F,4F);
+  ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),1L);
   User user = mock(User.class);
   Review review = Review.builder()
-      .userId(reviewRequestDto.userId())
+      .userId(userId)
       .reviewContent(reviewRequestDto.reviewContent())
       .storeId(reviewRequestDto.storeId())
       .tasteRating(reviewRequestDto.tasteRating())
@@ -66,6 +69,8 @@ public class ReviewServiceTest {
   void addReview(){
     //given
 //    doNothing().when(reviewRepository).save(review);
+    when(user.getId()).thenReturn(userId);
+    when(reviewRepository.existReviewByUserIdAndStoreId(userId,storeId)).thenReturn(false);
     //when
     var statusResponseDto = reviewService.addReview(user,reviewRequestDto);
 
@@ -78,9 +83,9 @@ public class ReviewServiceTest {
   @Test
   void getReview(){
     //given
-    given(reviewRepository.findById(userId)).willReturn(Optional.of(review));
+    given(reviewRepository.findReview(reviewId)).willReturn(Optional.of(reviewResponseDto));
     //when
-    var reviewResponseDto = reviewService.getReview(userId);
+    var reviewResponseDto = reviewService.getReview(reviewId);
 
     //then
     assertThat(reviewResponseDto.reviewContent()).isEqualTo(review.getReviewContent());
@@ -92,9 +97,9 @@ public class ReviewServiceTest {
   @Test
   void getStoreReviews(){
     //given
-    List<Review> reviews = new ArrayList<>();
-    reviews.add(review);
-    when(reviewRepository.findAllByStoreId(storeId)).thenReturn(reviews);
+    List<ReviewResponseDto> reviews = new ArrayList<>();
+    reviews.add(reviewResponseDto);
+    when(reviewRepository.findAllReviewByStoreId(storeId)).thenReturn(reviews);
 
     //when
     List<ReviewResponseDto> dtoList = reviewService.getStoreReviews(storeId);
@@ -109,9 +114,9 @@ public class ReviewServiceTest {
   @Test
   void getUserReviews(){
     //given
-    List<Review> reviews = new ArrayList<>();
-    reviews.add(review);
-    when(reviewRepository.findAllByUserId(userId)).thenReturn(reviews);
+    List<ReviewResponseDto> reviews = new ArrayList<>();
+    reviews.add(reviewResponseDto);
+    when(reviewRepository.findAllReviewByUserId(userId)).thenReturn(reviews);
 
     //when
     List<ReviewResponseDto> dtoList = reviewService.getUserReviews(userId);
@@ -126,7 +131,7 @@ public class ReviewServiceTest {
   @Test
   void updateReview(){
     //given
-    ReviewRequestDto reviewUpdateRequestDto = new ReviewRequestDto(userId,storeId,"수정리뷰내용",3F,4F,4F);
+    ReviewRequestDto reviewUpdateRequestDto = new ReviewRequestDto(storeId,reservationId,"수정리뷰내용",3F,4F,4F);
     Review mockingReview = mock(Review.class);
     given(reviewRepository.findById(userId)).willReturn(Optional.of(mockingReview));
     when(mockingReview.isWriter(user,mockingReview)).thenReturn(true);

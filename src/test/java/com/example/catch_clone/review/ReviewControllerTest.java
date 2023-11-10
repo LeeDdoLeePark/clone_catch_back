@@ -54,12 +54,13 @@ public class ReviewControllerTest {
   Long userId = 1L;
   Long storeId = 1L;
   Long reviewId = 1L;
+  Long reservationId = 1L;
 
   @Test
   @WithCustomMockUser
   void addReview() throws Exception{
 
-    ReviewRequestDto reviewRequestDto = new ReviewRequestDto(userId,storeId,"리뷰내용",5F,4F,3F);
+    ReviewRequestDto reviewRequestDto = new ReviewRequestDto(storeId,reservationId,"리뷰내용",5F,4F,3F);
 
     ResultActions resultActions = mockMvc.perform(post("/ct/reviews/{storeId}",storeId)
         .contentType(MediaType.APPLICATION_JSON)
@@ -69,8 +70,8 @@ public class ReviewControllerTest {
 
         resultActions.andDo(document("reviewController/addReview",
         requestFields(
-            fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 아이디"),
             fieldWithPath("storeId").type(JsonFieldType.NUMBER).description("가게 아이디"),
+            fieldWithPath("reservationId").type(JsonFieldType.NUMBER).description("예약 아이디"),
             fieldWithPath("reviewContent").type(JsonFieldType.STRING).description("리뷰 내용"),
             fieldWithPath("tasteRating").type(JsonFieldType.NUMBER).description("맛 별점"),
             fieldWithPath("atmosphereRating").type(JsonFieldType.NUMBER).description("분위기 별점"),
@@ -87,7 +88,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void getReview() throws Exception{
 
-    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0);
+    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
 
     given(reviewService.getReview(reviewId)).willReturn(reviewResponseDto);
 
@@ -113,7 +114,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void getStoreReviews() throws Exception{
     List<ReviewResponseDto> reviews = new ArrayList<>();
-    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0);
+    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
     reviews.add(reviewResponseDto);
 
     given(reviewService.getStoreReviews(storeId)).willReturn(reviews);
@@ -140,7 +141,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void getUserReviews() throws Exception{
     List<ReviewResponseDto> reviews = new ArrayList<>();
-    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0);
+    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
     reviews.add(reviewResponseDto);
 
     given(reviewService.getUserReviews(userId)).willReturn(reviews);
@@ -166,7 +167,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void updateReview() throws Exception{
     User user = mock(User.class);
-    ReviewRequestDto reviewRequestDto = new ReviewRequestDto(userId,storeId,"리뷰내용",5F,4F,3F);
+    ReviewRequestDto reviewRequestDto = new ReviewRequestDto(storeId,reservationId,"리뷰내용",5F,4F,3F);
     StatusResponseDto statusResponseDto = new StatusResponseDto(200,"OK");
     given(reviewService.updateReview(user,reviewId,reviewRequestDto)).willReturn(statusResponseDto);
 
@@ -180,8 +181,8 @@ public class ReviewControllerTest {
 
     resultActions.andDo(document("reviewController/updateReview",
         requestFields(
-            fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 아이디"),
             fieldWithPath("storeId").type(JsonFieldType.NUMBER).description("가게 아이디"),
+            fieldWithPath("reservationId").type(JsonFieldType.NUMBER).description("예약 아이디"),
             fieldWithPath("reviewContent").type(JsonFieldType.STRING).description("리뷰 내용"),
             fieldWithPath("tasteRating").type(JsonFieldType.NUMBER).description("맛 별점"),
             fieldWithPath("atmosphereRating").type(JsonFieldType.NUMBER).description("분위기 별점"),
@@ -226,10 +227,10 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void requestReviewLike() throws Exception{
 
-    ResultActions resultActions = mockMvc.perform(post("/ct/reviews/{reviewId}/like",reviewId)
+    ResultActions resultActions = mockMvc.perform(post("/ct/reviews/like/{reviewId}",reviewId)
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
-        .andExpect(status().isOk());
+          .andExpect(status().isOk());
 
     resultActions.andDo(document("reviewController/requestReviewLike"
 //        responseFields(
