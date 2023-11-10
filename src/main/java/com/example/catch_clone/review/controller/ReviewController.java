@@ -83,7 +83,7 @@ public class ReviewController{
 
 
   //좋아요 컨트롤러
-  @PostMapping("/{reviewId}/like")
+  @PostMapping("like/{reviewId}")
   public ResponseEntity<StatusResponseDto> requestReviewLike(@PathVariable Long reviewId,@AuthenticationPrincipal
   UserDetailsImpl userDetails){
     StatusResponseDto statusResponseDto = reviewService.requestReviewLike(userDetails.getUserId(),reviewId);
