@@ -3,13 +3,19 @@ package com.example.catch_clone.review.entity;
 import com.example.catch_clone.review.dto.ReviewRequestDto;
 import com.example.catch_clone.user.entity.User;
 import com.example.catch_clone.util.TimeStamped;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,22 +53,24 @@ public class Review extends TimeStamped {
   @Column
   private Float totalRating;  //모든별점평균
 
-  @Column
-  private Integer likeCount;  //좋아요 갯수
 
-  //좋아요 개수는 임시로 넣어놓음 수정 필요
 @Builder
-public Review(Long id, Long userId, Long storeId, String reviewContent, Float tasteRating, Float atmosphereRating, Float serviceRating){
+public Review(Long id, Long userId, Long storeId, Long reservationId, String reviewContent, Float tasteRating, Float atmosphereRating, Float serviceRating){
   this.id = id;
   this.userId = userId;
   this.storeId = storeId;
+  this.reservationId = reservationId;
   this.reviewContent = reviewContent;
   this.tasteRating = tasteRating;
   this.atmosphereRating = atmosphereRating;
   this.serviceRating = serviceRating;
   this.totalRating = (tasteRating + atmosphereRating + serviceRating) / 3;
-  this.likeCount = 0;
 }
+
+//연관관계
+@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+private Set<ReviewLike> likes = new LinkedHashSet<>();
+
 
   public boolean isWriter(User user,Review review){
     return Objects.equals(user.getId(), review.getUserId());
