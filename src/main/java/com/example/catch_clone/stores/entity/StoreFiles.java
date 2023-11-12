@@ -6,8 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 @Getter
 @NoArgsConstructor
@@ -25,6 +27,13 @@ public class StoreFiles {
 
   @Column
   private LocalDateTime createdAt;  //생성일자
+
+  @Builder
+  public StoreFiles(Long storeId,String fileUrl, LocalDateTime createdAt){
+    this.storeId = storeId;
+    this.fileUrl = fileUrl;
+    this.createdAt = createdAt;
+  }
 
 
 
