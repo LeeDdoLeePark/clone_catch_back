@@ -32,6 +32,7 @@ public class TestDataRun implements ApplicationRunner {
   public void run(ApplicationArguments args) throws Exception {
 
 
+
     log.info("runrunrun");
     Store store = new Store("test1","Seoul",3.0f, LocalTime.now(),"010-1234-1234","오마카세입니다.",
         LocalDateTime.now(),"가맹점공지1","N","매주 월요일","www.test.com");
