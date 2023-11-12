@@ -5,6 +5,7 @@ import com.example.catch_clone.comment.service.inter.CommentService;
 import com.example.catch_clone.reservation.service.inter.ReservationService;
 import com.example.catch_clone.review.service.inter.ReviewService;
 import com.example.catch_clone.stores.dao.StoreFilesRepository;
+import com.example.catch_clone.stores.dao.StoreFilesRepositoryQuery;
 import com.example.catch_clone.stores.dao.StoreMenuRepository;
 import com.example.catch_clone.stores.dao.StoreRepository;
 import com.example.catch_clone.stores.dto.StoreDto;
@@ -30,6 +31,7 @@ public class StoreServiceImpl implements StoreService {
   private final StoreRepository storeRepository;
   private final StoreMenuRepository storeMenuRepository;
 
+
   private final StoreFilesRepository storeFilesRepository;
 
 
@@ -40,7 +42,7 @@ public class StoreServiceImpl implements StoreService {
     Store store = storeRepository.findById(storeId).orElseThrow(
         ()-> new IllegalArgumentException("해당 가게를 찾을 수 없습니다.")
     );
-    return new StoreDto(store.getStoreName(), store.getStoreLocation(), store.getStarRate(),store.getTimeDetail(),store.getStorePhoneNumber(),store.getAboutStore(),store.getCreatedAt(),store.getStoreNotification(),store.getReservationTypeFlag(),store.getRegularHoliday(),store.getStoreHomepage());
+    return StoreDto.valueOf(store);
   }
 
   @Override

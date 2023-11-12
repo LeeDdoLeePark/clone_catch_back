@@ -32,11 +32,37 @@ public class TestDataRun implements ApplicationRunner {
   public void run(ApplicationArguments args) throws Exception {
 
 
-
     log.info("runrunrun");
-    Store store = new Store("test1","Seoul",3.0f, LocalTime.now(),"010-1234-1234","오마카세입니다.",
-        LocalDateTime.now(),"가맹점공지1","N","매주 월요일","www.test.com");
-    Store store2 = new Store("test2","Incheon",4.0f, LocalTime.now(),"010-7777-7777","고기집.",LocalDateTime.now(),"가맹점공지2","Y","매주 금요일","www.test22.com");
+    Store store = new Store().builder()
+        .storeName("test1")
+        .storeLocation("Seoul")
+        .starRate(3.0f)
+        .timeDetail(LocalTime.now())
+        .storePhoneNumber("010-1234-1234")
+        .aboutStore("오마카세입니다.")
+        .createdAt(LocalDateTime.now())
+        .storeNotification("가맹점공지1")
+        .reservationTypeFlag("N")
+        .regularHoliday("매주 월요일")
+        .storeHomepage("www.test.com")
+        .build();
+
+    Store store2 = new Store().builder()
+        .storeName("test2")
+        .storeLocation("Incheon")
+        .starRate(4.0f)
+        .timeDetail(LocalTime.now())
+        .storePhoneNumber("010-7777-7777")
+        .aboutStore("고기집.")
+        .createdAt(LocalDateTime.now())
+        .storeNotification("가맹점공지2")
+        .reservationTypeFlag("Y")
+        .regularHoliday("매주 금요일")
+        .storeHomepage("www.test22.com")
+        .build();
+    //Store store = new Store("test1","Seoul",3.0f, LocalTime.now(),"010-1234-1234","오마카세입니다.",
+      //  LocalDateTime.now(),"가맹점공지1","N","매주 월요일","www.test.com");
+    //Store store2 = new Store("test2","Incheon",4.0f, LocalTime.now(),"010-7777-7777","고기집.",LocalDateTime.now(),"가맹점공지2","Y","매주 금요일","www.test22.com");
     storeRepository.save(store);
     storeRepository.save(store2);
 
