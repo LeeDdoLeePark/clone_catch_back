@@ -1,9 +1,7 @@
 package com.example.catch_clone.reservation.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,4 +26,5 @@ public class CanceledReservation {
 
   @Column
   private LocalDateTime createdAt;  //생성일자
+
 }
