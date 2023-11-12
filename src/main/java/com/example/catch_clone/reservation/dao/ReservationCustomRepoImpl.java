@@ -80,7 +80,7 @@ public class ReservationCustomRepoImpl implements ReservationCustomRepo{
         return queryFactory
                 .select(
                         Projections.bean(
-                                ReservationSimpleResponseDto.class,
+                                ReservationSimpleResponseDto.class
 
                         )
                 )
@@ -96,6 +96,5 @@ public class ReservationCustomRepoImpl implements ReservationCustomRepo{
                 )
                 .fetch();
 
-        return null;
     }
 }
