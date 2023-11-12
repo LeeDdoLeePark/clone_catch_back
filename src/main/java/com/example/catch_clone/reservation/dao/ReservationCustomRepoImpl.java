@@ -1,10 +1,6 @@
 package com.example.catch_clone.reservation.dao;
 
 import com.example.catch_clone.reservation.dto.ReservationSimpleResponseDto;
-import com.example.catch_clone.reservation.entity.CanceledReservation;
-import com.example.catch_clone.reservation.entity.QCanceledReservation;
-import com.example.catch_clone.stores.entity.QCategories;
-import com.example.catch_clone.stores.entity.QStore;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -80,8 +76,7 @@ public class ReservationCustomRepoImpl implements ReservationCustomRepo{
         return queryFactory
                 .select(
                         Projections.bean(
-                                ReservationSimpleResponseDto.class,
-
+                                ReservationSimpleResponseDto.class
                         )
                 )
                 .from(reservation)
@@ -96,6 +91,5 @@ public class ReservationCustomRepoImpl implements ReservationCustomRepo{
                 )
                 .fetch();
 
-        return null;
     }
 }
