@@ -18,7 +18,6 @@ public class Store {
   @GeneratedValue
   private Long id;
 
-
   @Column
   private String storeName; //가맹점이름
 
