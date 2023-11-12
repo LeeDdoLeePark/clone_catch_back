@@ -3,6 +3,7 @@ package com.example.catch_clone.stores.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Store {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column
@@ -52,5 +53,24 @@ public class Store {
   private String storeHomepage; //홈페이지 주소
 
 
+  public Store(String storeName, String storeLocation, Float starRate, LocalTime timeDetail, String storePhoneNumber, String aboutStore, LocalDateTime createdAt,String storeNotification,String reservationTypeFlag, String regularHoliday,
+      String storeHomepage) {
 
+      this.storeName = storeName;
+      this.storeLocation = storeLocation;
+      this.starRate = starRate;
+      this.timeDetail = timeDetail;
+      this.storePhoneNumber = storePhoneNumber;
+      this.aboutStore = aboutStore;
+      this.createdAt = createdAt;
+      this.storeNotification = storeNotification;
+      this.reservationTypeFlag = reservationTypeFlag;
+      this.regularHoliday = regularHoliday;
+      this.storeHomepage = storeHomepage;
+
+  }
+
+  public Store(String storeName){
+    this.storeName = storeName;
+  }
 }
