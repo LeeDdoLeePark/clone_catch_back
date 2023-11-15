@@ -44,31 +44,58 @@ public class ReservationCustomRepoImpl implements ReservationCustomRepo{
                 .fetch();
     }
 
-    @Override
-    public List<ReservationSimpleResponseDto> getUserCompletedReservationsSortedByOldest(Long userId) {
-        return queryFactory
-                .select(
-                        Projections.bean(
-                                ReservationSimpleResponseDto.class,
-                                store.storeName
-                                ,categories.categoryNm
-                                ,completedReservation.reservationDate
-                                ,completedReservation.reservationTime
-                                ,completedReservation.reservationPersonnel
-                                ,reservation.reservationStatus
-                        )
-                )
-                .from(reservation)
-                .join(completedReservation)
-                .join(store)
-                .join(categories)
-                .where(completedReservation.id.eq(reservation.id)
-                        .and(store.id.eq(reservation.storeId))
-                        .and(categories.storeId.eq(store.id))
-                )
-                .orderBy(reservation.createdAt.desc())
-                .fetch();
-    }
+//    @Override
+//    public List<ReservationSimpleResponseDto> getUserCompletedReservationsSortedByOldest(Long userId) {
+//        return queryFactory
+//                .select(
+//                        Projections.bean(
+//                                ReservationSimpleResponseDto.class,
+//                                store.storeName
+//                                ,categories.categoryNm
+//                                ,completedReservation.reservationDate
+//                                ,completedReservation.reservationTime
+//                                ,completedReservation.reservationPersonnel
+//                                ,reservation.reservationStatus
+//                        )
+//                )
+//                .from(reservation)
+//                .join(completedReservation)
+//                .join(store)
+//                .join(categories)
+//                .where(completedReservation.id.eq(reservation.id)
+//                        .and(store.id.eq(reservation.storeId))
+//                        .and(categories.storeId.eq(store.id))
+//                )
+//                .orderBy(reservation.createdAt.desc())
+//                .fetch();
+//    }
+
+  //바꾼 쿼리
+  @Override
+  public List<ReservationSimpleResponseDto> getUserCompletedReservationsSortedByOldest(Long userId) {
+    return queryFactory
+        .select(
+            Projections.bean(
+                ReservationSimpleResponseDto.class,
+                store.storeName
+                ,categories.categoryNm
+                ,reservation.reservationStatusInfo.reservationDate
+                ,reservation.reservationStatusInfo.reservationTime
+                ,reservation.reservationStatusInfo.reservationPersonnel
+                ,reservation.reservationStatus
+            )
+        )
+        .from(reservation)
+        .where(reservation.userId.eq(userId),
+            reservation.reservationStatusInfo.completed.eq(true),
+            store.id.eq(reservation.storeId),
+            categories.storeId.eq(store.id)
+        )
+        .leftJoin(store)
+        .leftJoin(categories)
+        .orderBy(reservation.createdAt.desc())
+        .fetch();
+  }
 
     @Override
     public List<ReservationSimpleResponseDto> findAllCanceledAndNoShowReservationByUserId(Long userId) {
