@@ -16,12 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserRepositoryQuery userRepositoryQuery;
-    @Autowired
-    private PasswordEncoder passwordEncoder; //비밀번호 암호화
+    private  final UserRepository userRepository;
+    private final UserRepositoryQuery userRepositoryQuery;
+    private final PasswordEncoder passwordEncoder; //비밀번호 암호화
 
     @Override
     public StatusResponseDto signUp(String accountName, String password) {
@@ -33,6 +30,7 @@ public class UserServiceImpl implements UserService {
         else{
             String encodedPwd = passwordEncoder.encode(password);
             //저장
+            userRepositoryQuery.saveAccount(accountName, password);
         }
         return new StatusResponseDto(201,"Created");
     }
