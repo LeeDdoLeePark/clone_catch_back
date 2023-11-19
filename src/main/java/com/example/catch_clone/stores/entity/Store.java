@@ -1,5 +1,6 @@
 package com.example.catch_clone.stores.entity;
 
+import com.example.catch_clone.stores.dto.StoreDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -69,6 +70,21 @@ public class Store {
       this.regularHoliday = regularHoliday;
       this.storeHomepage = storeHomepage;
 
+  }
+
+
+  public Store(StoreDto storeDto){
+    this.storeName = storeDto.storeName();
+    this.storeLocation = storeDto.storeLocation();
+    this.starRate = storeDto.starRate();
+    this.timeDetail = LocalTime.now();
+    this.storePhoneNumber = storeDto.storePhoneNumber();
+    this.aboutStore = storeDto.aboutStore();
+    this.createdAt = LocalDateTime.now();
+    this.storeNotification = storeDto.storeNotification();
+    this.reservationTypeFlag = storeDto.reservationTypeFlag();
+    this.regularHoliday = storeDto.regularHoliday();
+    this.storeHomepage = storeDto.storeHomepage();
   }
 
   public Store(String storeName){
