@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "users")
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY) //이게 뭐지
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(length = 25, nullable = false, unique = true)
@@ -48,12 +48,9 @@ public class User {
   @Column
   private String profileUrl;
 
-  //테스트 코드를 위한 임시 생성자입니다
-  @Builder
-  public User(String username, String password, UserRoleEnum role){
+  public User(String username, String password){
     this.username = username;
     this.password = password;
-    this.role = role;
   }
 
 }

@@ -27,7 +27,6 @@ public class UserController{
 
     @GetMapping("/profile/{usersId}")
     public UserDto getUserProfile(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        //return userService.getUserProfile(userDetails.getUserId());
         return null;
     }
 
