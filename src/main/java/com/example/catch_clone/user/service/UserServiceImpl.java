@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
         }
         else{
             String encodedPwd = passwordEncoder.encode(password);
-            //저장
-            userRepositoryQuery.saveAccount(accountName, password);
+            User users = new User(accountName, encodedPwd);
+            userRepository.save(users);
         }
         return new StatusResponseDto(201,"Created");
     }
@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Optional<UserDto> getUserProfile(Long userId) {
-        return userRepositoryQuery.findUserId(userId);
+        return null;
     }
-
 
 }

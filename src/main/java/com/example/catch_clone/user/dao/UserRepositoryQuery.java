@@ -7,5 +7,4 @@ import org.springframework.data.repository.Repository;
 
 public interface UserRepositoryQuery extends Repository<User,Long>{
   void saveAccount(String username, String password);
-  void updateProfile();
 }
