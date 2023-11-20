@@ -30,10 +30,10 @@ public class User {
   @Enumerated(EnumType.STRING)
   private UserRoleEnum role;
 
-  @Column
+  @Column(nullable = false)
   private String password;
 
-  @Column
+  @Column(nullable = false)
   private String nickName;
 
   @Column
@@ -48,9 +48,15 @@ public class User {
   @Column
   private String profileUrl;
 
-  public User(String username, String password){
+  @Builder
+  public User(String username, String password, String nickName, String phoneNumber, String aboutMe, String profileUrl, UserRoleEnum role){
     this.username = username;
     this.password = password;
+    this.nickName = nickName;
+    this.phoneNumber = phoneNumber;
+    this.aboutMe = aboutMe;
+    this.profileUrl = profileUrl;
+    this.role = role;
   }
 
 }

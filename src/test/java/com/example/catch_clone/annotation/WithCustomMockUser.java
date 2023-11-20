@@ -10,7 +10,6 @@ import org.springframework.security.test.context.support.WithSecurityContext;
 public @interface WithCustomMockUser {
 
   String username() default "username1";
-
   String password() default "Password1!";
   UserRoleEnum role() default UserRoleEnum.CUSTOMER;
 
