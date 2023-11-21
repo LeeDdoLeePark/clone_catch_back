@@ -53,7 +53,7 @@ public class ReviewServiceTest {
   Long reviewId = 1L;
 
   ReviewRequestDto reviewRequestDto = new ReviewRequestDto(storeId,reservationId,"리뷰내용",4F,4F,4F);
-  ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),1L);
+  ReviewResponseDto reviewResponseDto = new ReviewResponseDto(1L,"리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),1L);
   User user = mock(User.class);
   Review review = Review.builder()
       .userId(userId)

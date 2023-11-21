@@ -1,5 +1,6 @@
 package com.example.catch_clone.review.entity;
 
+import com.example.catch_clone.comment.entity.Comment;
 import com.example.catch_clone.review.dto.ReviewRequestDto;
 import com.example.catch_clone.user.entity.User;
 import com.example.catch_clone.util.TimeStamped;
@@ -71,7 +72,10 @@ public Review(Long id, Long userId, Long storeId, Long reservationId, String rev
 @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
 private Set<ReviewLike> likes = new LinkedHashSet<>();
 
+@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+private Set<Comment> comments = new LinkedHashSet<>();
 
+//메서드
   public boolean isWriter(User user,Review review){
     return Objects.equals(user.getId(), review.getUserId());
   }
