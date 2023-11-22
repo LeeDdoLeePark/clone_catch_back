@@ -88,7 +88,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void getReview() throws Exception{
 
-    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
+    ReviewResponseDto reviewResponseDto = new ReviewResponseDto(1L,"리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
 
     given(reviewService.getReview(reviewId)).willReturn(reviewResponseDto);
 
@@ -99,6 +99,7 @@ public class ReviewControllerTest {
 
     resultActions.andDo(document("reviewController/getReview",
         responseFields(
+            fieldWithPath("reviewId").type(JsonFieldType.STRING).description("리뷰 ID"),
             fieldWithPath("reviewContent").type(JsonFieldType.STRING).description("리뷰 내용"),
             fieldWithPath("tasteRating").type(JsonFieldType.NUMBER).description("맛 별점"),
             fieldWithPath("atmosphereRating").type(JsonFieldType.NUMBER).description("분위기 별점"),
@@ -114,7 +115,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void getStoreReviews() throws Exception{
     List<ReviewResponseDto> reviews = new ArrayList<>();
-    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
+    ReviewResponseDto reviewResponseDto = new ReviewResponseDto(1L,"리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
     reviews.add(reviewResponseDto);
 
     given(reviewService.getStoreReviews(storeId)).willReturn(reviews);
@@ -126,6 +127,7 @@ public class ReviewControllerTest {
 
     resultActions.andDo(document("reviewController/getStoreReviews",
         responseFields(
+            fieldWithPath("[].reviewId").type(JsonFieldType.STRING).description("리뷰 ID"),
             fieldWithPath("[].reviewContent").type(JsonFieldType.STRING).description("리뷰 내용"),
             fieldWithPath("[].tasteRating").type(JsonFieldType.NUMBER).description("맛 별점"),
             fieldWithPath("[].atmosphereRating").type(JsonFieldType.NUMBER).description("분위기 별점"),
@@ -141,7 +143,7 @@ public class ReviewControllerTest {
   @WithCustomMockUser
   void getUserReviews() throws Exception{
     List<ReviewResponseDto> reviews = new ArrayList<>();
-    ReviewResponseDto reviewResponseDto = new ReviewResponseDto("리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
+    ReviewResponseDto reviewResponseDto = new ReviewResponseDto(1L,"리뷰내용",4F,4F,4F,4F, LocalDateTime.now(),0L);
     reviews.add(reviewResponseDto);
 
     given(reviewService.getUserReviews(userId)).willReturn(reviews);
@@ -153,6 +155,7 @@ public class ReviewControllerTest {
 
     resultActions.andDo(document("reviewController/getUserReviews",
         responseFields(
+            fieldWithPath("[].reviewId").type(JsonFieldType.STRING).description("리뷰 ID"),
             fieldWithPath("[].reviewContent").type(JsonFieldType.STRING).description("리뷰 내용"),
             fieldWithPath("[].tasteRating").type(JsonFieldType.NUMBER).description("맛 별점"),
             fieldWithPath("[].atmosphereRating").type(JsonFieldType.NUMBER).description("분위기 별점"),

@@ -32,6 +32,7 @@ public class TestDataRun implements ApplicationRunner {
   public void run(ApplicationArguments args) throws Exception {
 
 
+
 //    log.info("runrunrun");
 //    Store store = new Store().builder()
 //        .storeName("test1")
@@ -117,6 +118,7 @@ public class TestDataRun implements ApplicationRunner {
 //    storeFilesRepository.save(storeFiles3);
 //    storeFilesRepository.save(storeFiles4);
 //
+
 
 
 
