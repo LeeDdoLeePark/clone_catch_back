@@ -1,6 +1,7 @@
 package com.example.catch_clone.stores.entity;
 
 
+import com.example.catch_clone.stores.dto.StoreFilesDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +34,12 @@ public class StoreFiles {
     this.storeId = storeId;
     this.fileUrl = fileUrl;
     this.createdAt = createdAt;
+  }
+
+  public StoreFiles(StoreFilesDto storeFilesDto){
+    this.storeId = storeFilesDto.storeId();
+    this.fileUrl = storeFilesDto.fileUrl();
+    this.createdAt = LocalDateTime.now();
   }
 
 

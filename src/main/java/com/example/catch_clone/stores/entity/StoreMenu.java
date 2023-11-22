@@ -1,6 +1,7 @@
 package com.example.catch_clone.stores.entity;
 
 
+import com.example.catch_clone.stores.dto.StoreMenuDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +41,16 @@ public class StoreMenu {
     this.menuUrl = menuUrl;
     this.menuPrice = menuPrice;
     this.menuMain = menuMain;
+
+  }
+
+  public StoreMenu(StoreMenuDto storeMenuDto){
+
+    this.storeId = storeMenuDto.storeId();
+    this.menuNm = storeMenuDto.menuNm();
+    this.menuUrl = storeMenuDto.menuUrl();
+    this.menuPrice = storeMenuDto.menuPrice();
+    this.menuMain = storeMenuDto.menuMain();
 
   }
 

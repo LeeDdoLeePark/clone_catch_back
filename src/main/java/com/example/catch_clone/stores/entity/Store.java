@@ -1,5 +1,6 @@
 package com.example.catch_clone.stores.entity;
 
+import com.example.catch_clone.stores.dto.StoreDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import lombok.Builder;
 import lombok.CustomLog;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,7 +54,7 @@ public class Store {
   @Column
   private String storeHomepage; //홈페이지 주소
 
-
+  @Builder
   public Store(String storeName, String storeLocation, Float starRate, LocalTime timeDetail, String storePhoneNumber, String aboutStore, LocalDateTime createdAt,String storeNotification,String reservationTypeFlag, String regularHoliday,
       String storeHomepage) {
 
@@ -68,6 +70,21 @@ public class Store {
       this.regularHoliday = regularHoliday;
       this.storeHomepage = storeHomepage;
 
+  }
+
+
+  public Store(StoreDto storeDto){
+    this.storeName = storeDto.storeName();
+    this.storeLocation = storeDto.storeLocation();
+    this.starRate = storeDto.starRate();
+    this.timeDetail = LocalTime.now();
+    this.storePhoneNumber = storeDto.storePhoneNumber();
+    this.aboutStore = storeDto.aboutStore();
+    this.createdAt = LocalDateTime.now();
+    this.storeNotification = storeDto.storeNotification();
+    this.reservationTypeFlag = storeDto.reservationTypeFlag();
+    this.regularHoliday = storeDto.regularHoliday();
+    this.storeHomepage = storeDto.storeHomepage();
   }
 
   public Store(String storeName){
