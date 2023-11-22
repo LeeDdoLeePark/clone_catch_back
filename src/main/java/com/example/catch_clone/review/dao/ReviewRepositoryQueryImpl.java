@@ -34,6 +34,7 @@ public class ReviewRepositoryQueryImpl implements ReviewRepositoryQuery{
         .select(
             Projections.bean(
                 ReviewResponseDto.class
+                , review.id
                 , review.reviewContent
                 , review.totalRating
                 , review.atmosphereRating
@@ -61,6 +62,7 @@ public class ReviewRepositoryQueryImpl implements ReviewRepositoryQuery{
         .select(
             Projections.bean(
                 ReviewResponseDto.class
+                , review.id
                 , review.reviewContent
                 , review.totalRating
                 , review.atmosphereRating
@@ -87,6 +89,7 @@ public class ReviewRepositoryQueryImpl implements ReviewRepositoryQuery{
         .select(
             Projections.bean(
                 ReviewResponseDto.class
+                , review.id
                 , review.reviewContent
                 , review.totalRating
                 , review.atmosphereRating

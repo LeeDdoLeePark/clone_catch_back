@@ -1,6 +1,6 @@
 package com.example.catch_clone.user.dto;
 
 
-public record UserRequestDto(Long id, String accountName, String password, String nickname, String phoneNumber, java.time.LocalDateTime createdAt) {
+public record UserRequestDto(String username, String password, String nickName, String phoneNumber, String aboutMe, String profileUrl) {
 
 }
