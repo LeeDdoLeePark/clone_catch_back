@@ -3,15 +3,20 @@ package com.example.catch_clone.comment.entity;
 import com.example.catch_clone.comment.dto.CommentRequestDto;
 import com.example.catch_clone.review.dto.ReviewRequestDto;
 import com.example.catch_clone.review.entity.Review;
+import com.example.catch_clone.review.entity.ReviewLike;
 import com.example.catch_clone.user.entity.User;
 import com.example.catch_clone.util.TimeStamped;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +48,8 @@ public class Comment extends TimeStamped {
   @JoinColumn(name = "review_id")
   private Review review;
 
+  @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<CommentLike> likes = new LinkedHashSet<>();
 
   //메서드
   public boolean isWriter(User user,Comment comment){

@@ -82,4 +82,14 @@ public class CommentController {
     headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
     return ResponseEntity.ok().headers(headers).body(statusResponseDto);
   }
+
+  //좋아요 컨트롤러
+  @PostMapping("like/{commentId}")
+  public ResponseEntity<StatusResponseDto> requestCommentLike(@PathVariable Long commentId,@AuthenticationPrincipal
+  UserDetailsImpl userDetails){
+    StatusResponseDto statusResponseDto = commentService.requestCommentLike(userDetails.getUserId(),commentId);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+    return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+  }
 }

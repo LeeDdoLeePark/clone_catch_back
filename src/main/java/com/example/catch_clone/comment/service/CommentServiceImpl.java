@@ -1,9 +1,12 @@
 package com.example.catch_clone.comment.service;
 
+import com.example.catch_clone.comment.dao.CommentLikeRepository;
 import com.example.catch_clone.comment.dao.CommentRepository;
 import com.example.catch_clone.comment.dto.CommentRequestDto;
 import com.example.catch_clone.comment.dto.CommentResponseDto;
 import com.example.catch_clone.comment.entity.Comment;
+import com.example.catch_clone.comment.entity.CommentLike;
+import com.example.catch_clone.comment.entity.CommentLikeId;
 import com.example.catch_clone.comment.service.inter.CommentService;
 import com.example.catch_clone.review.dao.ReviewRepository;
 import com.example.catch_clone.review.entity.Review;
@@ -21,6 +24,7 @@ public class CommentServiceImpl implements CommentService {
   private CommentRepository commentRepository;
   private UserRepository userRepository;
   private ReviewRepository reviewRepository;
+  private CommentLikeRepository commentLikeRepository;
   @Override
   @Transactional
   public StatusResponseDto addComment(User user, CommentRequestDto commentRequestDto,Long reviewId) {
@@ -87,6 +91,31 @@ public class CommentServiceImpl implements CommentService {
     commentRepository.deleteById(commentId);
 
     return new StatusResponseDto(204,"NO_CONTENT");
+  }
+
+  @Override
+  @Transactional
+  public StatusResponseDto requestCommentLike(Long userId, Long commentId) {
+    CommentLikeId commentLikeId = CommentLikeId.builder()
+        .userId(userId)
+        .commentId(commentId)
+        .build();
+
+    if(commentLikeRepository.existByCommentLikeId(commentLikeId)){
+      commentLikeRepository.deleteByCommentLikeId(commentLikeId);
+    }
+
+    else{
+      User user = userRepository.findById(userId).orElseThrow(
+          () -> new IllegalArgumentException("유효하지 않은 Id입니다")
+      );
+     Comment comment = commentRepository.findById(commentId).orElseThrow(
+          () -> new IllegalArgumentException("유효하지 않은 Id입니다")
+      );
+      commentLikeRepository.save(new CommentLike(user,comment));
+    }
+
+    return new StatusResponseDto(200,"OK");
   }
 
 }

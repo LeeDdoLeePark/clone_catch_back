@@ -1,27 +1,52 @@
 package com.example.catch_clone.comment.entity;
 
+import com.example.catch_clone.review.entity.Review;
+import com.example.catch_clone.review.entity.ReviewLikeId;
+import com.example.catch_clone.user.entity.User;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CommentLike {
-  @Id
-  @GeneratedValue
-  private Long id;  //여기도 댓글ID,회원ID를 fk로 가지고 있고 pk가 따로 없는데 혹시 몰라 남겨놓습니다.
-  //사실 댓글의 총 카운트 쿼리를 날린다면 인덱스를 활용하는 것이 효율적으로 좋을텐데, Pk를 활용하는 것이 좋지 않을까 싶습니다.
+  @EmbeddedId
+  private CommentLikeId commentLikeId;
 
-  @Column
-  private Long userId;  //유저ID
+  //생성자
+  @Builder
+  public CommentLike(User user, Comment comment) {
+    this.user = user;
+    this.comment = comment;
+    this.commentLikeId = getCommentLikeId(user, comment);
+  }
 
-  @Column
-  private Long commentId; //댓글ID
+  private static CommentLikeId getCommentLikeId(User user, Comment comment) {
+    CommentLikeId id = new CommentLikeId();
+    id.setUserId(user.getId());
+    id.setCommentId(comment.getId());
+    return id;
+  }
+
+  //연관관계
+  @ManyToOne
+  @MapsId("user_id")
+  User user;
+
+  @ManyToOne
+  @MapsId("comment_id")
+  Comment comment;
+
 
 
 }
