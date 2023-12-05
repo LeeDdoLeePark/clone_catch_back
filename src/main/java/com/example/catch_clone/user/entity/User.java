@@ -6,19 +6,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "users")
 public class User {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(length = 25, nullable = false, unique = true)
@@ -28,10 +30,10 @@ public class User {
   @Enumerated(EnumType.STRING)
   private UserRoleEnum role;
 
-  @Column
+  @Column(nullable = false)
   private String password;
 
-  @Column
+  @Column(nullable = false)
   private String nickName;
 
   @Column
@@ -46,5 +48,15 @@ public class User {
   @Column
   private String profileUrl;
 
+  @Builder
+  public User(String username, String password, String nickName, String phoneNumber, String aboutMe, String profileUrl, UserRoleEnum role){
+    this.username = username;
+    this.password = password;
+    this.nickName = nickName;
+    this.phoneNumber = phoneNumber;
+    this.aboutMe = aboutMe;
+    this.profileUrl = profileUrl;
+    this.role = role;
+  }
 
 }
