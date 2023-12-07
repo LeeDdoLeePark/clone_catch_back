@@ -1,13 +1,17 @@
 package com.example.catch_clone.reservation.dao;
 
+import com.example.catch_clone.reservation.dto.ReservationRequestDto;
 import com.example.catch_clone.reservation.dto.ReservationSimpleResponseDto;
+import com.example.catch_clone.reservation.entity.QMonthOpenReservationSetInfo;
 import com.example.catch_clone.reservation.entity.ReservationStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
+import static com.example.catch_clone.reservation.entity.QMonthOpenReservationSetInfo.monthOpenReservationSetInfo;
 import static com.example.catch_clone.reservation.entity.QReservation.reservation;
 import static com.example.catch_clone.stores.entity.QStore.store;
 import static com.example.catch_clone.stores.entity.QCategories.categories;
@@ -121,5 +125,48 @@ public class ReservationCustomRepoImpl implements ReservationCustomRepo{
                 )
                 .orderBy(reservation.createdAt.desc())
                 .fetch();
+    }
+
+    @Override
+    public boolean existsSameReservation(Long userId, ReservationRequestDto request) {
+         int result = queryFactory.selectOne()
+                .from(reservation)
+                 .where(reservation.store.id.eq(request.getStoreId())
+                         .and(reservation.user.id.eq(userId))
+                         .and(reservation.reservationDate.eq(reservation.reservationDate))
+                         .and(reservation.reservationTime.eq(reservation.reservationTime))
+                 )
+                .fetchFirst();
+
+         if(result > 0){
+             return true;
+         }return false;
+    }
+
+    @Override
+    public int getReservationTotalCount(ReservationRequestDto request) {
+
+        int result = queryFactory.select(reservation.reservationCount.sum())
+                .from(reservation)
+                .where(reservation.store.id.eq(request.getStoreId())
+                        .and(reservation.reservationDate.eq(request.getVisitDate()))
+                        .and(reservation.reservationTime.eq(request.getVisitTime()))
+                )
+                .fetchOne();
+
+        return result;
+    }
+
+    @Override
+    public int getReservationSetCount(ReservationRequestDto request, DayOfWeek dayOfWeek ){
+        int result = queryFactory.select(monthOpenReservationSetInfo.reservationCount)
+                .from(monthOpenReservationSetInfo)
+                .where(reservation.store.id.eq(request.getStoreId())
+                        .and(monthOpenReservationSetInfo.dayOfWeek.eq(dayOfWeek))
+                        .and(monthOpenReservationSetInfo.visitTime.eq(request.getVisitTime()))
+                )
+                .fetchOne();
+
+        return result;
     }
 }

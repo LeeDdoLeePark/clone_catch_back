@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class Store {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "store_id")
   private Long id;
 
   @Column
@@ -46,7 +47,7 @@ public class Store {
   private String storeNotification; //가맹점공지
 
   @Column
-  private String reservationTypeFlag; //예약 지정일자 오픈 여부(Y,N)
+  private ReservationTypeFlag reservationTypeFlag; //예약 지정일자 오픈 여부(Y,N)
 
   @Column
   private String regularHoliday; //정기 휴무일
@@ -55,7 +56,7 @@ public class Store {
   private String storeHomepage; //홈페이지 주소
 
   @Builder
-  public Store(String storeName, String storeLocation, Float starRate, LocalTime timeDetail, String storePhoneNumber, String aboutStore, LocalDateTime createdAt,String storeNotification,String reservationTypeFlag, String regularHoliday,
+  public Store(String storeName, String storeLocation, Float starRate, LocalTime timeDetail, String storePhoneNumber, String aboutStore, LocalDateTime createdAt,String storeNotification,ReservationTypeFlag reservationTypeFlag, String regularHoliday,
       String storeHomepage) {
 
       this.storeName = storeName;

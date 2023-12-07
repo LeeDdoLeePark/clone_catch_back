@@ -11,5 +11,6 @@ public interface ReservationRepository extends Repository<Reservation,Long>, Res
 
     List<Reservation> findAllByReservationStatus(ReservationStatus status);
     Optional<Reservation> findById(Long id);
+    boolean existsById(Long id);
     void save(Reservation reservation);
 }

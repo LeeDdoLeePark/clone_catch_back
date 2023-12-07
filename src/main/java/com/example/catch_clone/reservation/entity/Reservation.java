@@ -26,11 +26,11 @@ public class Reservation {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "store_id")
   private Store store;
 
   @Column
-  private String reservationCount;  //예약인원
+  private Integer reservationCount;  //예약인원
 
   @Column
   private String reservationDate; //예약일자

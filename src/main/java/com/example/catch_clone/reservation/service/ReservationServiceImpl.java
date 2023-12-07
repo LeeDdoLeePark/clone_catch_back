@@ -6,9 +6,13 @@ import com.example.catch_clone.reservation.dto.ReservationSimpleResponseDto;
 import com.example.catch_clone.reservation.entity.Reservation;
 import com.example.catch_clone.reservation.entity.ReservationStatus;
 import com.example.catch_clone.reservation.service.inter.ReservationService;
+import com.example.catch_clone.stores.entity.ReservationTypeFlag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -47,8 +51,44 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     public void createReservation(Long userId, ReservationRequestDto request) {
-        Reservation reservation = new Reservation(request);
-        reservationRepository.save(reservation);
+        // 같은 예약이 존재하는지 확인하기
+        boolean existReservation = reservationRepository.existsSameReservation(userId, request);
+
+        if(existReservation == true){
+            throw new RuntimeException("이미 예약이 존재합니다.");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        // 문자열을 LocalDate로 변환
+        LocalDate date = LocalDate.parse(request.getVisitDate(), formatter);
+
+        // 요일 얻기
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+
+        // 예약 가능 인원 확인하기
+        int possibleCount =0;
+
+        // 분기 처리할 플래그
+        if(request.getReservationTypeFlag().equals(ReservationTypeFlag.SPECIFIC_DATE)){
+            // help
+        }else{
+            possibleCount = reservationRepository.getReservationSetCount(request, dayOfWeek);
+        }
+
+        int reservedCount = reservationRepository.getReservationTotalCount(request);
+
+        if(possibleCount == reservedCount){
+            throw new RuntimeException("죄송합니다. 모든 좌석이 예약되었습니다.");
+        }
+        else if(request.getReservationCount()<=possibleCount-reservedCount){
+            Reservation reservation = new Reservation(request);
+            reservationRepository.save(reservation);
+        }else {
+            throw new RuntimeException("예약 가능 인원이 요청 인원보다 적습니다.");
+        }
+
     }
 
     @Override
