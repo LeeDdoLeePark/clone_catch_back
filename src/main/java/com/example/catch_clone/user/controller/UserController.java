@@ -30,9 +30,7 @@ public class UserController{
     @PostMapping("/login")
     public ResponseEntity<StatusResponseDto> login(@RequestBody UserLoginRequestDto loginRequestDto, HttpServletResponse response) {
         StatusResponseDto statusResponseDto = userService.login(response, loginRequestDto);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+        return ResponseEntity.ok().body(statusResponseDto);
     }
 
 //    @GetMapping("/profile/{usersId}")
