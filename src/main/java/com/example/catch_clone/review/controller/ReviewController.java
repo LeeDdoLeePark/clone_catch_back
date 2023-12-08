@@ -31,12 +31,10 @@ public class ReviewController{
   private final ReviewServiceImpl reviewService;
 
   @PostMapping("/{storeId}")
-  public ResponseEntity<StatusResponseDto> addReview(@RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal
+  public ResponseEntity<StatusResponseDto> addReview(@RequestBody ReviewRequestDto reviewRequestDto, @PathVariable Long storeId,@AuthenticationPrincipal
       UserDetailsImpl userDetails){
     StatusResponseDto statusResponseDto = reviewService.addReview(userDetails.getUser(),reviewRequestDto);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-    return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+    return ResponseEntity.ok().body(statusResponseDto);
   }
 
   @GetMapping("/review/{reviewId}")
@@ -67,18 +65,14 @@ public class ReviewController{
   public ResponseEntity<StatusResponseDto> updateReview(@PathVariable Long reviewId, @AuthenticationPrincipal
   UserDetailsImpl userDetails, ReviewRequestDto reviewRequestDto){
     StatusResponseDto statusResponseDto = reviewService.updateReview(userDetails.getUser(),reviewId,reviewRequestDto);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-    return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+    return ResponseEntity.ok().body(statusResponseDto);
   }
 
   @DeleteMapping("/{reviewId}")
   public ResponseEntity<StatusResponseDto> deleteReview(@PathVariable Long reviewId, @AuthenticationPrincipal
   UserDetailsImpl userDetails){
     StatusResponseDto statusResponseDto = reviewService.deleteReview(userDetails.getUser(),reviewId);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-    return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+    return ResponseEntity.ok().body(statusResponseDto);
   }
 
 
@@ -87,9 +81,7 @@ public class ReviewController{
   public ResponseEntity<StatusResponseDto> requestReviewLike(@PathVariable Long reviewId,@AuthenticationPrincipal
   UserDetailsImpl userDetails){
     StatusResponseDto statusResponseDto = reviewService.requestReviewLike(userDetails.getUserId(),reviewId);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-    return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+    return ResponseEntity.ok().body(statusResponseDto);
   }
 
 }
