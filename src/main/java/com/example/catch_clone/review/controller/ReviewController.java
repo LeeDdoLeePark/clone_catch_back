@@ -33,7 +33,7 @@ public class ReviewController{
   @PostMapping("/{storeId}")
   public ResponseEntity<StatusResponseDto> addReview(@RequestBody ReviewRequestDto reviewRequestDto, @PathVariable Long storeId,@AuthenticationPrincipal
       UserDetailsImpl userDetails){
-    StatusResponseDto statusResponseDto = reviewService.addReview(userDetails.getUser(),reviewRequestDto);
+    StatusResponseDto statusResponseDto = reviewService.addReview(userDetails.getUser(),reviewRequestDto,storeId);
     return ResponseEntity.ok().body(statusResponseDto);
   }
 
