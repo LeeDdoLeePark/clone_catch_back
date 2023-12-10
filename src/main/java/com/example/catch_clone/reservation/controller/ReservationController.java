@@ -1,5 +1,6 @@
 package com.example.catch_clone.reservation.controller;
 
+import com.example.catch_clone.reservation.dto.ReservationRequestDto;
 import com.example.catch_clone.reservation.dto.ReservationSimpleResponseDto;
 import com.example.catch_clone.reservation.service.ReservationServiceImpl;
 import com.example.catch_clone.security.UserDetailsImpl;
@@ -27,8 +28,8 @@ public class ReservationController{
     }
 
     @GetMapping("/c")
-    public void getUserCancelledAndNoShowReservations(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        reservationService.getUserCancelledAndNoShowReservations(userDetails.getUserId());
+    public List<ReservationSimpleResponseDto> getUserCancelledAndNoShowReservations(@AuthenticationPrincipal UserDetailsImpl userDetails){
+       return reservationService.getUserCancelledAndNoShowReservations(userDetails.getUserId());
     }
 
     @GetMapping("/d")
@@ -37,23 +38,24 @@ public class ReservationController{
     }
 
     @GetMapping("/e")
-    public void getUserInProgressReservations(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        reservationService.getUserCancelledAndNoShowReservations(userDetails.getUserId());
+    public List<ReservationSimpleResponseDto> getUserInProgressReservations(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return reservationService.getUserInProgressReservations(userDetails.getUserId());
     }
 
     @PostMapping// 가게 예약
-    public void createReservation(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        reservationService.createReservation(userDetails.getUserId());
+    public void createReservation(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                  @RequestBody ReservationRequestDto request){
+        reservationService.createReservation(userDetails.getUserId(), request);
     }
 
     @PutMapping
-    public void updateReservationToCancelled(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        reservationService.updateReservationToCancelled(userDetails.getUserId());
+    public void updateReservationToCancelled(@AuthenticationPrincipal UserDetailsImpl userDetails, Long id){
+        reservationService.updateReservationToCancelled(userDetails.getUserId(), id);
     }
 
     @PutMapping("/cf")
-    public void updateReservationToCompleted(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        reservationService.updateReservationToCompleted(userDetails.getUserId());
+    public void updateReservationToCompleted(@AuthenticationPrincipal UserDetailsImpl userDetails, Long id){
+        reservationService.updateReservationToCompleted(userDetails.getUserId(), id);
     }
 
 }

@@ -1,11 +1,12 @@
 package com.example.catch_clone.stores.dto;
 
+import com.example.catch_clone.stores.entity.ReservationTypeFlag;
 import com.example.catch_clone.stores.entity.Store;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public record StoreDto(String storeName, String storeLocation, Float starRate, String storePhoneNumber, String aboutStore,
-                        String storeNotification,String reservationTypeFlag,String regularHoliday,String storeHomepage) {
+                       String storeNotification, ReservationTypeFlag reservationTypeFlag, String regularHoliday, String storeHomepage) {
 
 
   public static StoreDto valueOf(Store store){
