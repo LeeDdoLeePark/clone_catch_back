@@ -5,6 +5,7 @@ import com.example.catch_clone.user.dto.UserLoginRequestDto;
 import com.example.catch_clone.user.dto.UserRequestDto;
 import com.example.catch_clone.user.service.inter.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -22,16 +23,14 @@ public class UserController{
     private final UserService userService;
 
     @PostMapping("/signUp")
-    public void signUp(@RequestBody UserRequestDto userRequestDto){
+    public void signUp(@RequestBody @Valid UserRequestDto userRequestDto){
         userService.signUp(userRequestDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<StatusResponseDto> login(@RequestBody UserLoginRequestDto loginRequestDto, HttpServletResponse response) {
         StatusResponseDto statusResponseDto = userService.login(response, loginRequestDto);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(statusResponseDto);
+        return ResponseEntity.ok().body(statusResponseDto);
     }
 
 //    @GetMapping("/profile/{usersId}")

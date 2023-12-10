@@ -19,6 +19,6 @@ public interface CommentService {
   StatusResponseDto updateComment(User user, Long commentId, CommentRequestDto commentRequestDto);
   //댓글 삭제하기
   StatusResponseDto deleteComment(User user, Long commentId);
-
-
+  //댓글 좋아요
+  StatusResponseDto requestCommentLike(Long userId, Long commentId);
 }

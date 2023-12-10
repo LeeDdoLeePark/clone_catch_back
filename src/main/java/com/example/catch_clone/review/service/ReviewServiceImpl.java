@@ -1,6 +1,5 @@
 package com.example.catch_clone.review.service;
 
-
 import com.example.catch_clone.review.dao.ReviewLikeRepository;
 import com.example.catch_clone.review.dao.ReviewRepository;
 import com.example.catch_clone.review.dto.ReviewRequestDto;
@@ -26,8 +25,8 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   @Transactional
-  public StatusResponseDto addReview(User user, ReviewRequestDto reviewRequestDto) {
-    if(reviewRepository.existReviewByUserIdAndStoreId(user.getId(), reviewRequestDto.storeId())){
+  public StatusResponseDto addReview(User user, ReviewRequestDto reviewRequestDto,Long storeId) {
+    if(reviewRepository.existReviewByUserIdAndStoreId(user.getId(), storeId)){
       return new StatusResponseDto(400,"Bad Request");
     }
 
@@ -35,7 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
         .userId(user.getId())
         .reservationId(reviewRequestDto.reservationId())
         .reviewContent(reviewRequestDto.reviewContent())
-        .storeId(reviewRequestDto.storeId())
+        .storeId(storeId)
         .tasteRating(reviewRequestDto.tasteRating())
         .atmosphereRating(reviewRequestDto.atmosphereRating())
         .serviceRating(reviewRequestDto.serviceRating())

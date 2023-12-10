@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ReviewService {
   //리뷰 생성
-  StatusResponseDto addReview(User user, ReviewRequestDto reviewRequestDto);
+  StatusResponseDto addReview(User user, ReviewRequestDto reviewRequestDto,Long storeId);
   //단일 리뷰 불러오기
   ReviewResponseDto getReview(Long reviewId);
   //가게 리뷰 리스트 불러오기
