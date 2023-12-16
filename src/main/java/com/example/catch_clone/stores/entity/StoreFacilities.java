@@ -1,10 +1,14 @@
 package com.example.catch_clone.stores.entity;
 
 
+import com.example.catch_clone.stores.dto.StoreFacilityDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,17 +18,28 @@ import lombok.NoArgsConstructor;
 public class StoreFacilities {
   @Id
   @GeneratedValue
-  private Long id; // pk없이 가맹점 ID를 사용할텐데 혹시 몰라 남겨놓습니다.
+  private Long id;
+
+
+  @ManyToOne
+  @JoinColumn(name="store_id")
+  private Store store;
+
+//  @Column
+//  private Long storeId; //가맹점ID
 
   @Column
-  private Long storeId; //가맹점ID
-
-  @Column
-  private String facilityNum; //가게편의시설 코드
+  private Long facilityNum; //가게편의시설 코드( 예시:1.주차장 , 2.놀이시설, 3.노키즈 )
 
   @Column
   private String facilityNm;  //가게편의시설 이름
 
 
+  @Builder
+  public StoreFacilities(Store store, StoreFacilityDto storeFacilityDto){
+    this.store = store;
+    this.facilityNum = storeFacilityDto.facilityNum();
+    this.facilityNm = storeFacilityDto.facilityNm();
+  }
 
 }

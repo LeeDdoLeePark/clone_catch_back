@@ -21,7 +21,7 @@ public class StoreFilesRepositoryQueryImpl implements StoreFilesRepositoryQuery{
     return queryFactory.select(
        storeFiles
     ).from(storeFiles).
-        where(storeFiles.storeId.eq(storeId))
+        where(storeFiles.store.id.eq(storeId))
         .fetch();
 
 
