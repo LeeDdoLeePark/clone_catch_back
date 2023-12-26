@@ -80,6 +80,13 @@ public class StoreServiceImpl implements StoreService {
   }
 
   @Override
+  @Transactional
+  public Store findById(Long storeId) {
+    return storeRepository.findById(storeId).orElseThrow(
+        () -> new IllegalArgumentException("유효하지 않은 정보입니다.")
+    );
+  }
+  @Override
   public ResponseEntity<String> getShopMapInfo(Long storeId) {
     return null;
   }

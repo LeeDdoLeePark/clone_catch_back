@@ -4,6 +4,7 @@ import com.example.catch_clone.security.dto.StatusResponseDto;
 import com.example.catch_clone.stores.dto.StoreDto;
 import com.example.catch_clone.stores.dto.StoreFilesDto;
 import com.example.catch_clone.stores.dto.StoreMenuDto;
+import com.example.catch_clone.stores.entity.Store;
 import com.example.catch_clone.stores.entity.StoreFiles;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public interface StoreService {
 
   List<StoreFiles> getShopPhotoList(Long storeId);
 
+  Store findById(Long StoreId);
 
 
   ResponseEntity<String> getShopMapInfo(Long storeId);
