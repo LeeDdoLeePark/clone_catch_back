@@ -4,6 +4,7 @@ import com.example.catch_clone.security.dto.StatusResponseDto;
 import com.example.catch_clone.user.dto.UserDto;
 import com.example.catch_clone.user.dto.UserLoginRequestDto;
 import com.example.catch_clone.user.dto.UserRequestDto;
+import com.example.catch_clone.user.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface UserService {
     Optional<UserDto> getUserProfile(Long userId);
 
     StatusResponseDto login(HttpServletResponse response, UserLoginRequestDto request);
+
+    User findById(Long userId);
 }

@@ -70,7 +70,14 @@ public class UserServiceImpl implements UserService {
     return new StatusResponseDto(200,"OK");
   }
 
-    @Override
+  @Override
+  public User findById(Long userId) {
+    return userRepository.findById(userId).orElseThrow(
+        () -> new IllegalArgumentException("유효하지 않은 정보입니다.")
+    );
+  }
+
+  @Override
     public void updateProfile(Long userId) {
 
     }

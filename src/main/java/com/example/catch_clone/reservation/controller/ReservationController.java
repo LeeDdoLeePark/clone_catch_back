@@ -1,9 +1,14 @@
 package com.example.catch_clone.reservation.controller;
 
+import com.example.catch_clone.reservation.dto.RequestReservationDto;
 import com.example.catch_clone.reservation.dto.ReservationSimpleResponseDto;
 import com.example.catch_clone.reservation.service.ReservationServiceImpl;
 import com.example.catch_clone.security.UserDetailsImpl;
+import com.example.catch_clone.security.dto.StatusResponseDto;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +59,16 @@ public class ReservationController{
     @PutMapping("/cf")
     public void updateReservationToCompleted(@AuthenticationPrincipal UserDetailsImpl userDetails){
         reservationService.updateReservationToCompleted(userDetails.getUserId());
+    }
+
+    @PostMapping("/reservation/{storeId}/{storeReservationId}")
+    public ResponseEntity<StatusResponseDto> requestReservation(@AuthenticationPrincipal UserDetailsImpl userDetails,Long storeId,Long storeReservationId,
+        RequestReservationDto requestReservationDto){
+        String result = reservationService.requestReservation(requestReservationDto,storeId,storeReservationId,
+            userDetails.getUserId());
+        return Objects.equals(result, "OK") ? ResponseEntity
+            .status(HttpStatus.OK).body(new StatusResponseDto(200,"Success")) : ResponseEntity.status(
+            HttpStatus.BAD_REQUEST).build();
     }
 
 }

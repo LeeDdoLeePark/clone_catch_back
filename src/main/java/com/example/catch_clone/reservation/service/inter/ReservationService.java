@@ -1,7 +1,9 @@
 package com.example.catch_clone.reservation.service.inter;
 
+import com.example.catch_clone.reservation.dto.RequestReservationDto;
 import com.example.catch_clone.reservation.dto.ReservationSimpleResponseDto;
 
+import com.example.catch_clone.security.dto.StatusResponseDto;
 import java.util.List;
 
 public interface ReservationService {
@@ -18,4 +20,6 @@ public interface ReservationService {
     void updateReservationToCancelled(Long userId);
 
     void updateReservationToCompleted(Long userId);
+
+    String requestReservation(RequestReservationDto requestReservationDto,Long storeId, Long storeReservationId,Long userId);
 }
